@@ -49,15 +49,19 @@
                                     <td>{{ $item->category->nama }}</td>
                                     @if ($item->status_id == 1)
                                         <td>
-                                            <span class="text-warning">{{ $item->status->nama }}</span>
+                                            <span class="badge badge-info">{{ $item->status->nama }}</span>
                                         </td>
                                     @elseif($item->status_id == 2)
                                         <td>
-                                            <span class="text-success">{{ $item->status->nama }}</span>
+                                            <span class="badge badge-success">{{ $item->status->nama }}</span>
+                                        </td>
+                                    @elseif($item->status_id == 3)
+                                        <td>
+                                            <span class="badge badge-warning">{{ $item->status->nama }}</span>
                                         </td>
                                     @else
                                         <td>
-                                            <span class="text-danger">{{ $item->status->nama }}</span>
+                                            <span class="badge badge-danger">{{ $item->status->nama }}</span>
                                         </td>
                                     @endif
                                 </tr>

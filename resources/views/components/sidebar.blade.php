@@ -39,7 +39,6 @@
                 <hr class="sidebar-divider">
             @endif
 
-
             <!-- Heading -->
             <div class="sidebar-heading">
                 Dokumen
@@ -55,26 +54,28 @@
                 </li>
             @endif
 
+
+
             @if (Auth::user()->role == 'admin')
                 <!-- Nav Item - Pages Collapse Menu -->
-                <li class="nav-item {{ Route::is('laporan.berkas*') ? 'active' : '' }}">
+                <li class="nav-item {{ Route::is('dokumen.berkas*') ? 'active' : '' }}">
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
                         aria-expanded="true" aria-controls="collapsePages">
-                        <i class="fas fa-fw fa-chart-area"></i>
-                        <span>Laporan</span>
+                        <i class="fas fa-fw fa-folder"></i>
+                        <span>Berkas</span>
                     </a>
                     <div id="collapsePages" class="collapse" aria-labelledby="headingPages"
                         data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
-                            <h6 class="collapse-header">Semua Laporan Berkas</h6>
-                            <a class="collapse-item {{ Route::is('laporan.berkas') ? 'active' : '' }}"
-                                href="{{ route('laporan.berkas') }}">Berkas</a>
+                            <h6 class="collapse-header">Berkas Dikumpulkan</h6>
+                            <a class="collapse-item {{ Route::is('dokumen.berkas') ? 'active' : '' }}"
+                                href="{{ route('dokumen.berkas') }}">Berkas</a>
                             <div class="collapse-divider"></div>
                             <h6 class="collapse-header">Status Berkas</h6>
-                            <a class="collapse-item {{ Route::is('laporan.berkas.tertunda') ? 'active' : '' }}"
-                                href="{{ route('laporan.berkas.tertunda') }}">Berkas Tertunda</a>
-                            <a class="collapse-item {{ Route::is('laporan.berkas.terlambat') ? 'active' : '' }}"
-                                href="{{ route('laporan.berkas.terlambat') }}">Berkas Terlambat</a>.
+                            <a class="collapse-item {{ Route::is('dokumen.berkas.tertunda') ? 'active' : '' }}"
+                                href="{{ route('dokumen.berkas.tertunda') }}">Berkas Baru</a>
+                            <a class="collapse-item {{ Route::is('dokumen.berkas.ditolak') ? 'active' : '' }}"
+                                href="{{ route('dokumen.berkas.ditolak') }}">Berkas Ditolak</a>.
                         </div>
                     </div>
                 </li>
@@ -83,26 +84,36 @@
             @endif
             <hr class="sidebar-divider d-none d-md-block">
 
-            @if (Auth::user()->role == 'admin')
-                <div class="sidebar-heading">
-                    Settings
-                </div>
+            <div class="sidebar-heading">
+                Pengaturan
+            </div>
 
+            @if (Auth::user()->role == 'user')
+                <!-- Nav Item - Charts -->
+                <li class="nav-item {{ Route::is('berkas*') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('berkas') }}">
+                        <i class="fas fa-fw fa-chart-area"></i>
+                        <span>Laporan Berkas</span>
+                    </a>
+                </li>
+            @endif
+
+            @if (Auth::user()->role == 'admin')
                 <!-- Nav Item - Pages Collapse Menu -->
                 <li class="nav-item {{ Route::is('user.list*') ? 'active' : '' }}">
-                    <a class="nav-link collapsed" href="$" data-toggle="collapse" data-target="#collapse"
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse"
                         aria-expanded="true" aria-controls="collapsePages">
                         <i class="fas fa-fw fa-cog"></i>
                         <span>Administrator</span>
                     </a>
                     <div id="collapse" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
-                            <h6 class="collapse-header">User Settings</h6>
+                            <h6 class="collapse-header">Kelola User</h6>
                             <a class="collapse-item {{ Route::is('user.list') ? 'active' : '' }}"
                                 href="{{ route('user.list') }}">User List</a>
                             <div class="collapse-divider"></div>
-                            <h6 class="collapse-header">Other Settings</h6>
-                            <a class="collapse-item" href="login.html">Activity Task</a>
+                            <h6 class="collapse-header">Pelaporan Berkas</h6>
+                            <a class="collapse-item" href="login.html">Laporan Berkas</a>
                         </div>
                     </div>
                 </li>

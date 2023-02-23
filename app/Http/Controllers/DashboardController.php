@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Charts\StatusBerkas;
 use Carbon\Carbon;
-use App\Models\Berkas;
-use App\Models\Category;
 use App\Models\User;
+use App\Models\Berkas;
+use App\Models\Status;
+use App\Models\Category;
+use App\Charts\StatusBerkas;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -27,9 +28,10 @@ class DashboardController extends Controller
             $berkas = Berkas::where('user_id', $id)->count();
             $diterima = Berkas::where(['user_id' => $id, 'status_id' => 2])->count();
             $terlambat = Berkas::where(['user_id' => $id, 'status_id' => 3])->count();
+            $ditolak = Berkas::where(['user_id' => $id, 'status_id' => 4])->count();
             $user = User::where('role', 0)->count();
         }
-        return view('dashboard', ['user' => $user, 'berkas' => $berkas, 'diterima' => $diterima, 'terlambat' => $terlambat, 'chart' => $chart->build()]);
+        return view('dashboard', ['user' => $user, 'berkas' => $berkas, 'diterima' => $diterima, 'terlambat' => $terlambat, 'ditolak' => $ditolak, 'chart' => $chart->build()]);
     }
 
     // Kategori
@@ -107,52 +109,87 @@ class DashboardController extends Controller
     // End Of Berkas
 
     // Laporan 
-    public function view_laporan()
+    public function view_dokumen()
     {
         $berkas = Berkas::all();
         $category = Category::all();
-        return view('laporan.berkas', ['category' => $category, 'berkas' => $berkas]);
+        return view('dokumen.berkas', ['category' => $category, 'berkas' => $berkas]);
     }
 
-    public function detail_laporan($id)
+    public function detail_dokumen($id)
     {
         $berkas = Berkas::where('id', $id)->get();
-        return view('laporan.detail', compact('berkas'));
+        return view('dokumen.detail', compact('berkas'));
+    }
+
+    public function hapus_dokumen($id)
+    {
+        $berkas = Berkas::find($id);
+        $berkas->delete();
+        return redirect()->back()->with('delete', 'Kategori berhasil Dihapus');
+    }
+
+    public function update_dokumen(Request $r, $id)
+    {
+        $rules = [
+            'judul' => 'required|min:7|max:255',
+            'keterangan' => 'required|max:255',
+            'category_id' => 'required',
+        ];
+        $validated = $r->validate($rules);
+        $berkas = Berkas::where('id', $id)->update($validated);
+        return redirect()->back(['berkas' => $berkas])->with('message', 'Data berhasil diperbaharui');
     }
 
     public function view_tertunda()
     {
         $berkas = Berkas::all();
         $category = Category::all();
-        return view('laporan.berkas-tertunda', ['category' => $category, 'berkas' => $berkas]);
+        $status = Status::all();
+        return view('dokumen.berkas-tertunda', ['category' => $category, 'berkas' => $berkas, 'status' => $status]);
     }
 
-    public function view_terlambat()
+    public function view_ditolak()
     {
         $berkas = Berkas::all();
         $category = Category::all();
-        return view('laporan.berkas-terlambat', ['category' => $category, 'berkas' => $berkas]);
+        return view('dokumen.berkas-ditolak', ['category' => $category, 'berkas' => $berkas]);
     }
 
-    public function update_status_diterima($id)
+    public function update_status(Request $request, $id)
     {
-        $getStatus = Berkas::select('status_id')->where('id', $id)->first();
-        if ($getStatus->status_id == 1) {
-            $status_id = 2;
-        }
-        Berkas::where('id', $id)->update(['status_id' => $status_id]);
-        return redirect()->back()->with('diterima', 'Berkas berhasil Diterima');
-    }
+        $getStatus = Berkas::where('id', $id)->first();
+        if ($getStatus) {
+            $getStatus->update(
+                [
+                    'status_id' => $request->status_id,
+                ],
 
-    public function update_status_terlambat($id)
-    {
-        $getStatus = Berkas::select('status_id')->where('id', $id)->first();
-        if ($getStatus->status_id == 1) {
-            $status_id = 3;
+            );
+            return redirect()->back();
+        } else {
+            return redirect()->back();
         }
-        Berkas::where('id', $id)->update(['status_id' => $status_id]);
-        return redirect()->back()->with('terlambat', 'Berkas berhasil Diterima dengan Status Terlambat');
     }
+    // public function update_status_diterima($id)
+    // {
+    //     $getStatus = Berkas::select('status_id')->where('id', $id)->first();
+    //     if ($getStatus->status_id == 1) {
+    //         $status_id = 2;
+    //     }
+    //     Berkas::where('id', $id)->update(['status_id' => $status_id]);
+    //     return redirect()->back()->with('diterima', 'Berkas berhasil Diterima');
+    // }
+
+    // public function update_status_terlambat($id)
+    // {
+    //     $getStatus = Berkas::select('status_id')->where('id', $id)->first();
+    //     if ($getStatus->status_id == 1) {
+    //         $status_id = 3;
+    //     }
+    //     Berkas::where('id', $id)->update(['status_id' => $status_id]);
+    //     return redirect()->back()->with('terlambat', 'Berkas berhasil Diterima dengan Status Terlambat');
+    // }
     // End of Laporan
 
     // User
@@ -172,5 +209,13 @@ class DashboardController extends Controller
         }
         User::where('id', $id)->update(['status' => $status]);
         return redirect()->back()->with('status', 'User status berhasil diperbaharui');
+    }
+
+    // Download
+    public function download_dokumen($id)
+    {
+        $berkas = Berkas::where('id', $id)->first();
+        $file = $berkas->file;
+        return response()->download(storage_path('app/dataFile/' . $file));
     }
 }

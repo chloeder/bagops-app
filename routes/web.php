@@ -48,13 +48,17 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/berkas', [DashboardController::class, 'view_berkas'])->name('berkas');
     Route::post('/berkas', [DashboardController::class, 'tambah_berkas'])->name('berkas.store');
 
-    // Laporan
-    Route::get('/laporan/berkas', [DashboardController::class, 'view_laporan'])->name('laporan.berkas');
-    Route::get('/laporan/berkas/tertunda', [DashboardController::class, 'view_tertunda'])->name('laporan.berkas.tertunda');
-    Route::put('/laporan/berkas/diterima/{id}', [DashboardController::class, 'update_status_diterima'])->name('update.status.diterima');
-    Route::put('/laporan/berkas/terlambat/{id}', [DashboardController::class, 'update_status_terlambat'])->name('update.status.terlambat');
-    Route::get('/laporan/berkas/terlambat', [DashboardController::class, 'view_terlambat'])->name('laporan.berkas.terlambat');
-    Route::get('/laporan/detail/{id}', [DashboardController::class, 'detail_laporan'])->name('laporan.detail');
+    // Dokumen
+    Route::get('/dokumen/berkas', [DashboardController::class, 'view_dokumen'])->name('dokumen.berkas');
+    // Route::get('/dokumen/detail/{id}', [DashboardController::class, 'detail_dokumen'])->name('dokumen.detail');
+    Route::put('/dokumen/update/{id}', [DashboardController::class, 'update_dokumen'])->name('dokumen.update');
+    Route::delete('/dokumen/berkas/{id}', [DashboardController::class, 'hapus_dokumen'])->name('dokumen.hapus');
+    Route::put('/update/status/{id}', [DashboardController::class, 'update_status'])->name('update.status.dokumen');
+    Route::get('/dokumen/berkas/tertunda', [DashboardController::class, 'view_tertunda'])->name('dokumen.berkas.tertunda');
+    Route::get('/dokumen/berkas/ditolak', [DashboardController::class, 'view_ditolak'])->name('dokumen.berkas.ditolak');
+    Route::get('download/{id}', [DashboardController::class, 'download_dokumen'])->name('dokumen.download');
+    // Route::put('/dokumen/berkas/diterima/{id}', [DashboardController::class, 'update_status_diterima'])->name('update.status.diterima');
+    // Route::put('/dokumen/berkas/terlambat/{id}', [DashboardController::class, 'update_status_terlambat'])->name('update.status.terlambat');
 
     // Settings
     Route::get('/user-list', [DashboardController::class, 'view_user'])->name('user.list');
@@ -67,4 +71,6 @@ Route::middleware(['auth', 'role:user'])->group(function () {
     // Berkas
     Route::get('/berkas', [DashboardController::class, 'view_berkas'])->name('berkas');
     Route::post('/berkas', [DashboardController::class, 'tambah_berkas'])->name('berkas.store');
+
+    //Settings
 });

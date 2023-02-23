@@ -5,7 +5,7 @@
 
         <!-- Page Heading -->
         <h1 class="h3 mb-2 text-gray-800">Berkas</h1>
-        <p class="mb-4">Berikut adalah daftar Berkas yang telah Dimasukkan</p>
+        <p class="mb-4">Berikut adalah daftar yang terlambat memasukkan Berkas</p>
         <div class="single-work wow fadeInUp text-start" data-wow-delay=".2s">
         </div>
         <div class="card shadow mb-4">
@@ -20,6 +20,7 @@
                                 <th>No Berkas</th>
                                 <th>Kategori</th>
                                 <th>Dimasukkan</th>
+                                <th>Penginput</th>
                                 <th>Status</th>
                                 <th>Aksi</th>
                             </tr>
@@ -27,8 +28,9 @@
                         <tfoot>
                             <tr>
                                 <th>No Berkas</th>
+                                <th>Judul</th>
                                 <th>Kategori</th>
-                                <th>Dimasukkan</th>
+                                <th>Penginput</th>
                                 <th>Status</th>
                                 <th>Aksi</th>
                             </tr>
@@ -36,35 +38,23 @@
                         <tbody>
                             @forelse($berkas as $item)
                                 <tr>
-                                    @if ($item->status_id == 2 || $item->status_id == 3)
-                                        <td>{{ $item->nomor_berkas }}</td>
-                                        <td>{{ $item->category->nama }}</td>
-                                        <td>{{ \Carbon\Carbon::parse($item->created_at)->translatedFormat('d F Y') }}</td>
-                                        @if ($item->status_id == 1)
-                                            <td>
-                                                <span class="text-warning fw-bolder">{{ $item->status->nama }}</span>
-                                            </td>
-                                        @elseif($item->status_id == 2)
-                                            <td>
-                                                <span class="text-success fw-bolder">{{ $item->status->nama }}</span>
-                                            </td>
-                                        @else
-                                            <td>
-                                                <span class="text-danger fw-bolder">{{ $item->status->nama }}</span>
-                                            </td>
-                                        @endif
-
-                                        <td>
-                                            <button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal"
-                                                data-bs-target="#detailberkas-{{ $item->id }}">
-                                                <i class="bi bi-eye-fill"></i>
-                                            </button>
-                                            <button type="button" class="btn btn-sm btn-warning">
-                                                <i class="bi bi-pencil-fill"></i>
-                                            </button>
-                                            <button type="submit" class="btn btn-sm btn-danger">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
+                                    @if ($item->status_id == 4)
+                                        <td class="align-middle">{{ $item->nomor_berkas }}</td>
+                                        <td class="align-middle">{{ $item->category->nama }}</td>
+                                        <td class="align-middle">
+                                            {{ \Carbon\Carbon::parse($item->created_at)->translatedFormat('d F Y') }}</td>
+                                        <td class="align-middle">{{ $item->user->name }}</td>
+                                        <td class="align-middle">
+                                            <span class="badge badge-danger">{{ $item->status->nama }}</span>
+                                        </td>
+                                        <td class="align-middle">
+                                            <div class="d-inline-flex">
+                                                <button type="button" class="btn btn-sm btn-info me-2"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#detailberkas-{{ $item->id }}">
+                                                    <i class="bi bi-eye-fill"></i>
+                                                </button>
+                                            </div>
                                         </td>
                                     @else
                                     @endif
@@ -79,7 +69,7 @@
     </div>
     {{-- End Content --}}
 
-    {{-- Modal Trigger --}}
+    {{-- Modal Trigger Detail --}}
     @foreach ($berkas as $item)
         <div class="modal fade" id="detailberkas-{{ $item->id }}" tabindex="-1" role="dialog"
             aria-labelledby="detailberkas-{{ $item->id }}" aria-hidden="true" data-bs-backdrop="static">
@@ -125,21 +115,24 @@
                             <label for="judul" name="judul" class="mb-2 fw-bolder">Status :</label>
                             @if ($item->status_id == 1)
                                 <td>
-                                    <span class="text-warning">{{ $item->status->nama }}</span>
+                                    <span class="badge badge-warning">{{ $item->status->nama }}</span>
                                 </td>
                             @elseif($item->status_id == 2)
                                 <td>
-                                    <span class="text-success">{{ $item->status->nama }}</span>
+                                    <span class="badge badge-success">{{ $item->status->nama }}</span>
                                 </td>
                             @else
                                 <td>
-                                    <span class="text-danger">{{ $item->status->nama }}</span>
+                                    <span class="badge badge-danger">{{ $item->status->nama }}</span>
                                 </td>
                             @endif
                         </div>
                         <div class="mb-2">
                             <label for="judul" name="judul" class="mb-2 fw-bolder">File :</label>
-                            <span>{{ $item->file }}</span>
+                            <a href="{{ route('dokumen.download', $item->id) }}">
+                                <button type="button" class="btn btn-sm btn-success">Download</button>
+                            </a>
+                            <span class="text-danger">*Berkas Belum memenuhi Syarat</span>
                         </div>
 
                     </div>
@@ -147,5 +140,5 @@
             </div>
         </div>
     @endforeach
-    {{-- End Model Trigger --}}
+    {{-- End Model Trigger Detail --}}
 @endsection

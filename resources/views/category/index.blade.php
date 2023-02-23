@@ -90,13 +90,15 @@
                                             <form action="{{ route('kategori.update.status', $c->id) }}" method="post">
                                                 @csrf
                                                 @method('put')
-                                                <button type="submit" class="btn btn-sm btn-danger">Inactive</button>
+                                                <button type="submit" class="badge badge-danger"
+                                                    style="border: none">Inactive</button>
                                             </form>
                                         @else
                                             <form action="{{ route('kategori.update.status', $c->id) }}" method="post">
                                                 @csrf
                                                 @method('put')
-                                                <button type="submit" class="btn btn-sm btn-success">Active</button>
+                                                <button type="submit" class="badge badge-success"
+                                                    style="border: none">Active</button>
                                             </form>
                                         @endif
                                     </td>

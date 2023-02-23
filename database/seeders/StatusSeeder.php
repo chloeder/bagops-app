@@ -15,7 +15,7 @@ class StatusSeeder extends Seeder
      */
     public function run()
     {
-        $status = ['Ditunda', 'Diterima', 'Terlambat'];
+        $status = ['Baru', 'Diterima', 'Terlambat', 'Ditolak'];
 
         foreach ($status as $s) {
             Status::create([
