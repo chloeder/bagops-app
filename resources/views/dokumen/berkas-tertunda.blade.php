@@ -54,40 +54,22 @@
                                                 class="badge badge-info">{{ $item->status->nama }}</span></td>
 
                                         <td>
-                                            {{-- <form action="/dokumen/detail/{{ $item->slug }}" method="post"
-                                                class="form d-flex">
-                                                @csrf
-                                                @method('PUT')
-                                                <div class="input-group mb-3">
-                                                    <select class="form-select" id="status_type" name="status_type">
-                                                        @foreach ($status as $item)
-                                                            <option value="{{ $item->id }}">{{ $item->nama }}</option>
-                                                        @endforeach
-                                                    </select>
-
-                                                    <button type="submit" class="btn btn-primary me-1 mb-1">
-                                                        Update
-                                                    </button>
-                                            </form> --}}
-                                            <div class="card-body">
-                                                <form action="/update/status/{{ $item->id }}" method="post"
-                                                    class="form d-flex">
+                                            <div class="d-flex">
+                                                <form action="{{ route('update.status.dokumen', $item->id) }}"
+                                                    method="post" class="form d-flex">
                                                     @csrf
                                                     @method('PUT')
-                                                    <div class="input-group mb-3">
-                                                        <label class="input-group-text" for="status_id">Options</label>
-                                                        <select class="form-select" id="status_id" name="status_id">
-                                                            @foreach ($status as $s)
-                                                                <option value="{{ $s->id }}"
-                                                                    @if ($s->id == '') selected='selected' @endif>
-                                                                    {{ $s->nama }}
-                                                                </option>
-                                                            @endforeach
-                                                        </select>
-
-                                                        <button type="submit" class="btn btn-sm btn-primary me-1 mb-1">
-                                                            Update
-                                                        </button>
+                                                    <select class="btn btn-sm btn-dark" aria-label="Default select example"
+                                                        id="status_id" name="status_id" onchange="getOption()">
+                                                        <option selected>Pilih Disini</option>
+                                                        @foreach ($status as $s)
+                                                            <option value="{{ $s->id }}">
+                                                                {{ $s->nama }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                    <input type="submit" value="Update"
+                                                        class="btn btn-sm btn-primary ms-2">
                                                 </form>
                                             </div>
                                         </td>

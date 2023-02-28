@@ -90,8 +90,8 @@
 
             @if (Auth::user()->role == 'user')
                 <!-- Nav Item - Charts -->
-                <li class="nav-item {{ Route::is('berkas*') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ route('berkas') }}">
+                <li class="nav-item {{ Route::is('laporan.berkas*') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('laporan.berkas') }}">
                         <i class="fas fa-fw fa-chart-area"></i>
                         <span>Laporan Berkas</span>
                     </a>
@@ -100,7 +100,7 @@
 
             @if (Auth::user()->role == 'admin')
                 <!-- Nav Item - Pages Collapse Menu -->
-                <li class="nav-item {{ Route::is('user.list*') ? 'active' : '' }}">
+                <li class="nav-item {{ Route::is('user.list') ? 'active' : '' }}">
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse"
                         aria-expanded="true" aria-controls="collapsePages">
                         <i class="fas fa-fw fa-cog"></i>
@@ -113,7 +113,8 @@
                                 href="{{ route('user.list') }}">User List</a>
                             <div class="collapse-divider"></div>
                             <h6 class="collapse-header">Pelaporan Berkas</h6>
-                            <a class="collapse-item" href="login.html">Laporan Berkas</a>
+                            <a class="collapse-item {{ Route::is('laporan.berkas') ? 'active' : '' }}"
+                                href="{{ route('laporan.berkas') }}">Laporan Berkas</a>
                         </div>
                     </div>
                 </li>

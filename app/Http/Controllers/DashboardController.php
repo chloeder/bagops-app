@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Charts\LaporanBulanan;
 use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Berkas;
@@ -9,29 +10,100 @@ use App\Models\Status;
 use App\Models\Category;
 use App\Charts\StatusBerkas;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB as FacadesDB;
 
 class DashboardController extends Controller
 {
+    // Dashboard
     public function index(Berkas $berkas, StatusBerkas $chart)
     {
-        $id = Auth::user()->id;
 
+        // dd($total_berkas);
+        // dd($bulan);
+        $id = Auth::user()->id;
         if (Auth::user()->role == 'admin') {
             $berkas = Berkas::all()->count();
             $category = Berkas::all()->count();
             $tertunda = Berkas::where(['status_id' => 1])->count();
             $user = User::where('role', 0)->count();
 
-            return view('dashboard', ['user' => $user, 'berkas' => $berkas, 'category' => $category, 'tertunda' => $tertunda, 'chart' => $chart->build()]);
+            $total_berkas = Berkas::select(DB::raw("COUNT(*) as berkas"))
+                ->whereYear('created_at', date('Y'))
+                ->groupBy(DB::raw("month(created_at)"))
+                ->pluck('berkas');
+            $bulan  = Berkas::select(DB::raw("MONTHNAME(created_at) as bulan"))
+                ->groupBy(DB::raw("MONTHNAME(created_at)"))
+                ->orderBy('created_at', 'asc')
+                ->pluck('bulan');
+
+            return view('dashboard', ['bulan' => $bulan, 'total_berkas' => $total_berkas, 'user' => $user, 'berkas' => $berkas, 'category' => $category, 'tertunda' => $tertunda, 'chart' => $chart->build()]);
         } else {
             $berkas = Berkas::where('user_id', $id)->count();
             $diterima = Berkas::where(['user_id' => $id, 'status_id' => 2])->count();
             $terlambat = Berkas::where(['user_id' => $id, 'status_id' => 3])->count();
             $ditolak = Berkas::where(['user_id' => $id, 'status_id' => 4])->count();
             $user = User::where('role', 0)->count();
+
+            $total_berkas = Berkas::select(DB::raw("COUNT(*) as berkas"))
+                ->where('user_id', $id)
+                ->whereYear('created_at', date('Y'))
+                ->groupBy(DB::raw("month(created_at)"))
+                ->pluck('berkas');
+            $bulan  = Berkas::select(DB::raw("MONTHNAME(created_at) as bulan"))
+                ->where('user_id', $id)
+                ->groupBy(DB::raw("MONTHNAME(created_at)"))
+                ->pluck('bulan');
         }
-        return view('dashboard', ['user' => $user, 'berkas' => $berkas, 'diterima' => $diterima, 'terlambat' => $terlambat, 'ditolak' => $ditolak, 'chart' => $chart->build()]);
+        return view('dashboard', ['bulan' => $bulan, 'total_berkas' => $total_berkas, 'user' => $user, 'berkas' => $berkas, 'diterima' => $diterima, 'terlambat' => $terlambat, 'ditolak' => $ditolak, 'chart' => $chart->build()]);
+        // 
+    }
+
+    // Cetak Grafik
+    public function cetak_grafik(Berkas $berkas, StatusBerkas $chart)
+    {
+        // $total_berkas = Berkas::select(DB::raw("COUNT(*) as berkas"))
+        //     ->whereYear('created_at', date('Y'))
+        //     ->groupBy(DB::raw("month(created_at)"))
+        //     ->pluck('berkas');
+        // dd($total_berkas);
+        // dd($bulan);
+        $id = Auth::user()->id;
+        if (Auth::user()->role == 'admin') {
+            $berkas = Berkas::all()->count();
+            $category = Berkas::all()->count();
+
+            $tertunda = Berkas::where(['status_id' => 1])->count();
+            $user = User::where('role', 0)->count();
+            $total_berkas = Berkas::select(DB::raw("COUNT(*) as berkas"))
+                ->whereYear('created_at', date('Y'))
+                ->groupBy(DB::raw("month(created_at)"))
+                ->pluck('berkas');
+            $bulan  = Berkas::select(DB::raw("MONTHNAME(created_at) as bulan"))
+                ->groupBy(DB::raw("MONTHNAME(created_at)"))
+                ->orderBy('created_at', 'asc')
+                ->pluck('bulan');
+
+            return view('cetak.index', ['bulan' => $bulan, 'total_berkas' => $total_berkas, 'user' => $user, 'berkas' => $berkas, 'category' => $category, 'tertunda' => $tertunda, 'chart' => $chart->build()]);
+        } else {
+            $berkas = Berkas::where('user_id', $id)->count();
+            $diterima = Berkas::where(['user_id' => $id, 'status_id' => 2])->count();
+            $terlambat = Berkas::where(['user_id' => $id, 'status_id' => 3])->count();
+            $ditolak = Berkas::where(['user_id' => $id, 'status_id' => 4])->count();
+            $user = User::where('role', 0)->count();
+            $total_berkas = Berkas::select(DB::raw("COUNT(*) as berkas"))
+                ->where('user_id', $id)
+                ->whereYear('created_at', date('Y'))
+                ->groupBy(DB::raw("month(created_at)"))
+                ->pluck('berkas');
+            $bulan  = Berkas::select(DB::raw("MONTHNAME(created_at) as bulan"))
+                ->where('user_id', $id)
+                ->groupBy(DB::raw("MONTHNAME(created_at)"))
+                ->pluck('bulan');
+        }
+        return view('cetak.index', ['bulan' => $bulan, 'total_berkas' => $total_berkas, 'user' => $user, 'berkas' => $berkas, 'diterima' => $diterima, 'terlambat' => $terlambat, 'ditolak' => $ditolak, 'chart' => $chart->build()]);
+        // 
     }
 
     // Kategori
@@ -76,7 +148,9 @@ class DashboardController extends Controller
     public function view_berkas()
     {
         $id = Auth::user()->id;
-        $berkas = Berkas::where('user_id', $id)->get();
+        $berkas = Berkas::where('user_id', $id)
+            ->whereMonth('created_at', Carbon::now()->month)
+            ->get();
         $category = Category::all();
         return view('berkas.index', ['category' => $category, 'berkas' => $berkas]);
     }
@@ -108,10 +182,19 @@ class DashboardController extends Controller
     }
     // End Of Berkas
 
-    // Laporan 
-    public function view_dokumen()
+    // Dokumen 
+    public function view_dokumen(Request $request)
     {
-        $berkas = Berkas::all();
+
+        if (request()->tgl_awal && request()->tgl_akhir) {
+            $tgl_awal = Carbon::parse(request()->tgl_awal)->toDateTimeString();
+            $tgl_akhir = Carbon::parse(request()->tgl_akhir)->toDateTimeString();
+            $berkas = Berkas::whereBetween('created_at', [$tgl_awal, $tgl_akhir])->get();
+        } else {
+            $berkas = Berkas::whereMonth('created_at', Carbon::now()->month)->get();
+        }
+
+
         $category = Category::all();
         return view('dokumen.berkas', ['category' => $category, 'berkas' => $berkas]);
     }
@@ -145,7 +228,7 @@ class DashboardController extends Controller
     {
         $berkas = Berkas::all();
         $category = Category::all();
-        $status = Status::all();
+        $status = Status::where('id', '>', 1)->get();
         return view('dokumen.berkas-tertunda', ['category' => $category, 'berkas' => $berkas, 'status' => $status]);
     }
 
@@ -171,26 +254,8 @@ class DashboardController extends Controller
             return redirect()->back();
         }
     }
-    // public function update_status_diterima($id)
-    // {
-    //     $getStatus = Berkas::select('status_id')->where('id', $id)->first();
-    //     if ($getStatus->status_id == 1) {
-    //         $status_id = 2;
-    //     }
-    //     Berkas::where('id', $id)->update(['status_id' => $status_id]);
-    //     return redirect()->back()->with('diterima', 'Berkas berhasil Diterima');
-    // }
 
-    // public function update_status_terlambat($id)
-    // {
-    //     $getStatus = Berkas::select('status_id')->where('id', $id)->first();
-    //     if ($getStatus->status_id == 1) {
-    //         $status_id = 3;
-    //     }
-    //     Berkas::where('id', $id)->update(['status_id' => $status_id]);
-    //     return redirect()->back()->with('terlambat', 'Berkas berhasil Diterima dengan Status Terlambat');
-    // }
-    // End of Laporan
+    // End of Dokumen
 
     // User
     public function view_user()
@@ -217,5 +282,23 @@ class DashboardController extends Controller
         $berkas = Berkas::where('id', $id)->first();
         $file = $berkas->file;
         return response()->download(storage_path('app/dataFile/' . $file));
+    }
+
+    // Laporan
+    public function laporan_berkas(Request $request)
+    {
+        $id = Auth::user()->id;
+        if (request()->tgl_awal && request()->tgl_akhir) {
+            $tgl_awal = Carbon::parse(request()->tgl_awal)->toDateTimeString();
+            $tgl_akhir = Carbon::parse(request()->tgl_akhir)->toDateTimeString();
+            $berkas = Berkas::whereBetween('created_at', [$tgl_awal, $tgl_akhir])->get();
+        } else {
+            $berkas = Berkas::whereMonth('created_at', Carbon::now()->month)->get();
+        }
+
+        // dd($berkas);
+        $status = Status::all();
+        $category = Category::all();
+        return view('laporan.berkas', compact('berkas', 'status', 'category'));
     }
 }

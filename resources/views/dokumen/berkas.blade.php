@@ -31,6 +31,25 @@
                 <h6 class="m-0 font-weight-bold text-primary">List Berkas</h6>
             </div>
             <div class="card-body">
+                <form action="#" method="GET">
+                    @csrf
+                    <div class="row">
+                        <div class="col-md-4 col-md-offset-4">
+                            <label for="tgl_awal">Pilih Tanggal Awal</label>
+                            <input type="date" value="{{ \Carbon\Carbon::now() }}" name="tgl_awal" id="tgl_awal"
+                                class="form-control" placeholder="" required>
+                        </div>
+                        <div class="col-md-4 col-md-offset-4">
+                            <label for="tgl_akhir">Pilih Tanggal Akhir</label>
+                            <div class="d-flex">
+                                <input type="date" name="tgl_akhir" id="tgl_akhir" class="form-control" required>
+
+                                <input type="submit" value="Filter" class="btn btn-primary ms-4">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <hr>
                 <div class="table-responsive">
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                         <thead>
@@ -60,17 +79,13 @@
                                         <td class="align-middle">
                                             {{ \Carbon\Carbon::parse($item->created_at)->translatedFormat('d F Y') }}
                                         </td>
-                                        @if ($item->status_id == 1)
-                                            <td class="align-middle">
-                                                <span class="badge badge-warning">{{ $item->status->nama }}</span>
-                                            </td>
-                                        @elseif($item->status_id == 2)
+                                        @if ($item->status_id == 2)
                                             <td class="align-middle">
                                                 <span class="badge badge-success">{{ $item->status->nama }}</span>
                                             </td>
                                         @else
                                             <td class="align-middle">
-                                                <span class="badge badge-danger">{{ $item->status->nama }}</span>
+                                                <span class="badge badge-warning">{{ $item->status->nama }}</span>
                                             </td>
                                         @endif
 
@@ -160,17 +175,13 @@
                         </div>
                         <div class="mb-2">
                             <label for="judul" name="judul" class="mb-2 fw-bolder">Status :</label>
-                            @if ($item->status_id == 1)
-                                <td>
-                                    <span class="badge badge-warning">{{ $item->status->nama }}</span>
-                                </td>
-                            @elseif($item->status_id == 2)
-                                <td>
+                            @if ($item->status_id == 2)
+                                <td class="align-middle">
                                     <span class="badge badge-success">{{ $item->status->nama }}</span>
                                 </td>
                             @else
-                                <td>
-                                    <span class="badge badge-danger">{{ $item->status->nama }}</span>
+                                <td class="align-middle">
+                                    <span class="badge badge-warning">{{ $item->status->nama }}</span>
                                 </td>
                             @endif
                         </div>
@@ -248,7 +259,7 @@
                                     class="btn btn-outline-primary" data-bs-dismiss="modal">
                                     Keluar
                                 </button>
-                                <button type="submit" class="btn btn-primary">Unggah Berkas</button>
+                                <button type="submit" class="btn btn-primary">Update Berkas</button>
                             </div>
                             {{-- <div class="mb-3">
                                 <label for="judul" name="judul" class="mb-2 fw-bolder">Tanggal Dimasukkan :</label>
@@ -297,3 +308,12 @@
     @endforeach
     {{-- End Model Trigger Update --}}
 @endsection
+{{-- @section('footer-js')
+    <script>
+        const monthControl = document.querySelector('input[type="month"]');
+        const date = new Date()
+        const month = ("0" + (date.getMonth() + 1)).slice(-2)
+        const year = date.getFullYear()
+        monthControl.value = `${year}-${month}`;
+    </script>
+@endsection --}}

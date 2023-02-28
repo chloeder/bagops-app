@@ -113,26 +113,16 @@
                         </div>
                         <div class="mb-2">
                             <label for="judul" name="judul" class="mb-2 fw-bolder">Status :</label>
-                            @if ($item->status_id == 1)
-                                <td>
-                                    <span class="badge badge-warning">{{ $item->status->nama }}</span>
-                                </td>
-                            @elseif($item->status_id == 2)
-                                <td>
-                                    <span class="badge badge-success">{{ $item->status->nama }}</span>
-                                </td>
-                            @else
-                                <td>
-                                    <span class="badge badge-danger">{{ $item->status->nama }}</span>
-                                </td>
-                            @endif
+                            <td>
+                                <span class="badge badge-danger">{{ $item->status->nama }}</span>
+                            </td>
                         </div>
                         <div class="mb-2">
                             <label for="judul" name="judul" class="mb-2 fw-bolder">File :</label>
                             <a href="{{ route('dokumen.download', $item->id) }}">
                                 <button type="button" class="btn btn-sm btn-success">Download</button>
                             </a>
-                            <span class="text-danger">*Berkas Belum memenuhi Syarat</span>
+                            <p style="font-size: 15px" class="text-danger">*Berkas tidak memenuhi syarat</p>
                         </div>
 
                     </div>

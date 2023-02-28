@@ -50,6 +50,8 @@
                                     @if ($item->status_id == 1)
                                         <td>
                                             <span class="badge badge-info">{{ $item->status->nama }}</span>
+                                            <p style="font-size: 10px" class="text-danger">*Berkas belum diproses petugas
+                                            </p>
                                         </td>
                                     @elseif($item->status_id == 2)
                                         <td>
@@ -58,10 +60,13 @@
                                     @elseif($item->status_id == 3)
                                         <td>
                                             <span class="badge badge-warning">{{ $item->status->nama }}</span>
+                                            <p style="font-size: 10px" class="text-danger">*Berkas melewati batas tanggal
+                                                pengumpulan</p>
                                         </td>
                                     @else
                                         <td>
                                             <span class="badge badge-danger">{{ $item->status->nama }}</span>
+                                            <p style="font-size: 10px" class="text-danger">*Berkas belum memenuhi syarat</p>
                                         </td>
                                     @endif
                                 </tr>

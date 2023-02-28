@@ -33,6 +33,8 @@ Route::post('/register', [RegisterController::class, 'store'])->name('register.s
 Route::middleware(['auth'])->group(function () {
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/laporan-berkas', [DashboardController::class, 'laporan_berkas'])->name('laporan.berkas');
+    Route::get('/cetak-grafik', [DashboardController::class, 'cetak_grafik'])->name('cetak.grafik');
 });
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
