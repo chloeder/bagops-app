@@ -14,6 +14,12 @@
                 {{ session()->get('status') }}
             </div>
         @endif
+        @if (session()->has('wilayah'))
+            <div class="alert alert-success">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
+                {{ session()->get('wilayah') }}
+            </div>
+        @endif
         <div class="card shadow mb-4">
             <div class="card-header py-3">
                 <h6 class="m-0 font-weight-bold text-primary">List Berkas</h6>
@@ -26,7 +32,9 @@
                                 <th>No</th>
                                 <th>Nama</th>
                                 <th>Email</th>
+                                <th>Satuan Kerja</th>
                                 <th>Status</th>
+                                <th>Aksi</th>
 
                             </tr>
                         </thead>
@@ -35,7 +43,9 @@
                                 <th>No</th>
                                 <th>Nama</th>
                                 <th>Email</th>
+                                <th>Satuan Kerja</th>
                                 <th>Status</th>
+                                <th>Aksi</th>
 
                             </tr>
                         </tfoot>
@@ -45,6 +55,33 @@
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $item->name }}</td>
                                     <td>{{ $item->email }}</td>
+                                    <td>
+                                        @if ($item->satuan_kerja_id == 1)
+                                            <span>{{ $item->satker->nama }}</span>
+                                        @elseif($item->satuan_kerja_id == 2)
+                                            <span>{{ $item->satker->nama }}</span>
+                                        @elseif($item->satuan_kerja_id == 3)
+                                            <span>{{ $item->satker->nama }}</span>
+                                        @elseif($item->satuan_kerja_id == 4)
+                                            <span>{{ $item->satker->nama }}</span>
+                                        @elseif($item->satuan_kerja_id == 5)
+                                            <span>{{ $item->satker->nama }}</span>
+                                        @elseif($item->satuan_kerja_id == 6)
+                                            <span>{{ $item->satker->nama }}</span>
+                                        @elseif($item->satuan_kerja_id == 7)
+                                            <span>{{ $item->satker->nama }}</span>
+                                        @elseif($item->satuan_kerja_id == 8)
+                                            <span>{{ $item->satker->nama }}</span>
+                                        @elseif($item->satuan_kerja_id == 9)
+                                            <span>{{ $item->satker->nama }}</span>
+                                        @elseif($item->satuan_kerja_id == 10)
+                                            <span>{{ $item->satker->nama }}</span>
+                                        @elseif($item->satuan_kerja_id == 11)
+                                            <span>{{ $item->satker->nama }}</span>
+                                        @else
+                                            <span>{{ $item->satker->nama }}</span>
+                                        @endif
+                                    </td>
                                     <td>
                                         @if ($item->status == 'inactive')
                                             <form action="{{ route('update.status.user', $item->id) }}" method="post">
@@ -62,7 +99,25 @@
                                             </form>
                                         @endif
                                     </td>
-
+                                    <td>
+                                        <div class="d-flex">
+                                            <form action="{{ route('update.wilayah.user', $item->id) }}" method="post"
+                                                class="form d-flex">
+                                                @csrf
+                                                @method('PUT')
+                                                <select class="btn btn-sm btn-dark" aria-label="Default select example"
+                                                    id="satuan_kerja_id" name="satuan_kerja_id" onchange="getOption()">
+                                                    <option selected>Pilih Satuan Kerja</option>
+                                                    @foreach ($satker as $item)
+                                                        <option value="{{ $item->id }}">
+                                                            {{ $item->nama }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                                <input type="submit" value="Update" class="btn btn-sm btn-primary ms-2">
+                                            </form>
+                                        </div>
+                                    </td>
                                 </tr>
                             @empty
                             @endforelse
@@ -75,72 +130,37 @@
     {{-- End Content --}}
 
     {{-- Modal Trigger --}}
-    {{-- @foreach ($berkas as $item)
-        <div class="modal fade" id="detailberkas-{{ $item->id }}" tabindex="-1" role="dialog"
-            aria-labelledby="detailberkas-{{ $item->id }}" aria-hidden="true" data-bs-backdrop="static">
+    {{-- @foreach ($user as $item)
+        <div class="modal fade" id="editberkas-{{ $item->id }}" tabindex="-1" role="dialog"
+            aria-labelledby="editberkas-{{ $item->id }}" aria-hidden="true" data-bs-backdrop="static">
             <div class="modal-dialog modal-lg mx-0 mx-sm-auto">
                 <div class="modal-content">
                     <div class="modal-header bg-primary">
-                        <h5 class="modal-title text-white" id="berkasLabel">Detail Berkas</h5>
+                        <h5 class="modal-title text-white" id="berkasLabel">Ubah Password</h5>
                         <button type="button" onClick="window.location.reload();" class="btn-close text-white"
                             data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <div class="text-center">
-                            <p>
-                                Berikut adalah Detail dari Berkas Nomor <strong>{{ $item->nomor_berkas }}</strong>
-                            </p>
-                        </div>
-                        <hr>
-                        <div class="mt-5 mb-2">
-                            <label for="judul" name="nomor_berkas" class="mb-2 fw-bolder">Nomor Berkas :</label>
-                            <span>{{ $item->nomor_berkas }}</span>
-                        </div>
-                        <div class="mb-2">
-                            <label for="judul" name="judul" class="mb-2 fw-bolder">Judul :</label>
-                            <span>{{ $item->judul }}</span>
-                        </div>
-                        <div class="mb-2">
-                            <label for="judul" name="category_id" class="mb-2 fw-bolder">Kategori :</label>
-                            <span>{{ $item->category->nama }}</span>
-                        </div>
-                        <div class="mb-2">
-                            <label for="judul" name="keterangan" class="mb-2 fw-bolder">Keterangan :</label>
-                            <span>{{ $item->keterangan }}</span>
-                        </div>
-                        <div class="mb-2">
-                            <label for="judul" name="judul" class="mb-2 fw-bolder">Tanggal Dimasukkan :</label>
-                            <span>{{ \Carbon\Carbon::parse($item->created_at)->translatedFormat('d F Y') }}</span>
-                        </div>
-                        <div class="mb-2">
-                            <label for="judul" name="judul" class="mb-2 fw-bolder">Petugas yang Memasukkan :</label>
-                            <span>{{ $item->user->name }}</span>
-                        </div>
-                        <div class="mb-2">
-                            <label for="judul" name="judul" class="mb-2 fw-bolder">Status :</label>
-                            @if ($item->status_id == 1)
-                                <td>
-                                    <span class="text-warning">{{ $item->status->nama }}</span>
-                                </td>
-                            @elseif($item->status_id == 2)
-                                <td>
-                                    <span class="text-success">{{ $item->status->nama }}</span>
-                                </td>
-                            @else
-                                <td>
-                                    <span class="text-danger">{{ $item->status->nama }}</span>
-                                </td>
-                            @endif
-                        </div>
-                        <div class="mb-2">
-                            <label for="judul" name="judul" class="mb-2 fw-bolder">File :</label>
-                            <span>{{ $item->file }}</span>
-                        </div>
-
+                        <form>
+                            <div class="mb-3">
+                                <label for="recipient-name" class="col-form-label">Password Baru</label>
+                                <input type="text" class="form-control" id="new_password" name="new_password">
+                            </div>
+                            <div class="mb-3">
+                                <label for="recipient-name" class="col-form-label">Konfirmasi Password</label>
+                                <input type="text" class="form-control" id="confirm_password" name="confirm_password">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" onClick="window.location.reload();" class="btn btn-outline-dark"
+                            data-bs-dismiss="modal">
+                            Keluar
+                        </button>
+                        <button type="submit" class="btn btn-dark">Update</button>
                     </div>
                 </div>
             </div>
-        </div>
     @endforeach --}}
     {{-- End Model Trigger --}}
 @endsection

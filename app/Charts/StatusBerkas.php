@@ -36,9 +36,9 @@ class StatusBerkas
             $id = Auth::user()->id;
             return $this->chart->pieChart()
                 ->addData([
-                    Berkas::where('status_id', '=', 2)->whereMonth('created_at', Carbon::now()->month)->count(),
-                    Berkas::where('status_id', '=', 3)->whereMonth('created_at', Carbon::now()->month)->count(),
-                    Berkas::where('status_id', '=', 4)->whereMonth('created_at', Carbon::now()->month)->count(),
+                    Berkas::where('status_id', '=', 2)->whereMonth('created_at', Carbon::now()->month)->where('user_id', $id)->count(),
+                    Berkas::where('status_id', '=', 3)->whereMonth('created_at', Carbon::now()->month)->where('user_id', $id)->count(),
+                    Berkas::where('status_id', '=', 4)->whereMonth('created_at', Carbon::now()->month)->where('user_id', $id)->count(),
                 ])
                 ->setColors(['#1cc88a', '#FFDE00', "#ff0000"])
                 ->setLabels(['Diterima', 'Terlambat', 'Ditolak'])

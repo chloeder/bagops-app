@@ -90,7 +90,7 @@
         <div class="container position-relative" data-aos="fade-up" data-aos-delay="500">
             <h1>Bagian Operasional </h1>
             <h2>Polres Minahasa</h2>
-            <a href="{{ route('login') }}" class="btn-get-started scrollto">Buat Pelaporan</a>
+            <a href="{{ route('dashboard') }}" class="btn-get-started scrollto">Buat Pelaporan</a>
         </div>
     </section><!-- End Hero -->
 

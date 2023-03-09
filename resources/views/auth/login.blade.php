@@ -77,7 +77,10 @@
                                     </form>
                                     <hr />
                                     <div class="text-center">
-                                        <a class="small" href="{{ route('register') }}">Create an Account!</a>
+                                        <a class="small" href="{{ route('register') }}">Buat Akun</a>
+                                    </div>
+                                    <div class="text-center">
+                                        <a class="small" href="{{ route('forgot.password') }}">Lupa kata sandi?</a>
                                     </div>
                                 </div>
                             </div>

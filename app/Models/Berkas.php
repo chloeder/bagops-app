@@ -4,11 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Alfa6661\AutoNumber\AutoNumberTrait;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\Auth;
 
 class Berkas extends Model
 {
-    use AutoNumberTrait;
+    use AutoNumberTrait, Notifiable;
 
     /**
      * Return the autonumber configuration array for this model.
@@ -19,7 +21,7 @@ class Berkas extends Model
     {
         return [
             'nomor_berkas' => [
-                'format' => 'OPS' . date('dmy') . '?', // autonumber format. '?' will be replaced with the generated number.
+                'format' => 'OPS' . Auth::user()->id . date('dmy') . '?', // autonumber format. '?' will be replaced with the generated number.
                 'length' => 3 // The number of digits in an autonumber
             ]
         ];
@@ -42,5 +44,10 @@ class Berkas extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function satker()
+    {
+        return $this->belongsTo(SatuanKerja::class);
     }
 }

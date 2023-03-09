@@ -77,7 +77,7 @@
                             </form>
                             <hr>
                             <div class="text-center">
-                                <a class="small" href="forgot-password.html">Forgot Password?</a>
+                                <a class="small" href="{{ route('forgot.password') }}">Lupa kata sandi?</a>
                             </div>
                             <div class="text-center">
                                 <a class="small" href="{{ route('login') }}">Sudah Punya akun? Login</a>

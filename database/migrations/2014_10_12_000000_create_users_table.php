@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id');
             $table->string('name');
             $table->string('username');
             $table->string('email')->unique();
@@ -23,6 +23,7 @@ return new class extends Migration
             //0 = User, 1 = Admin
             $table->tinyInteger('role')->default(0);
             $table->string('status')->default('inactive');
+            $table->foreignIdFor(\App\Models\SatuanKerja::class, 'satuan_kerja_id')->default(1);
             $table->rememberToken();
             $table->timestamps();
         });

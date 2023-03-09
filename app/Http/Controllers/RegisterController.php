@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Notifications\ForAdminNotif;
+use App\Notifications\NewUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Notification;
 
 class RegisterController extends Controller
 {
@@ -23,7 +26,13 @@ class RegisterController extends Controller
         ]);
         $validated['password'] = Hash::make($validated['password']);
         User::create($validated);
+        $user = User::where('role', 1)->get();
+        Notification::send($user, new NewUser($validated));
+        return redirect()->route('login')->with('success', 'Registrasi telah berhasil, Menunggu konfirmasi dari admin');
+    }
 
-        return redirect()->route('login')->with('success', 'Registrasi telah berhasil, Silahkan Login!!');
+    public function forgot_password()
+    {
+        return view('auth.forgot-password');
     }
 }

@@ -13,10 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('categories', function (Blueprint $table) {
-            $table->increments('id');
+        Schema::create('satuan_kerjas', function (Blueprint $table) {
+            $table->id();
             $table->string('nama');
-            $table->string('status')->default('Nonaktif');
             $table->timestamps();
         });
     }
@@ -28,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('categories');
+        Schema::dropIfExists('satuan_kerjas');
     }
 };

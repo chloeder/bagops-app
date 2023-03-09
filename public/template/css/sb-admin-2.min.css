@@ -3008,14 +3008,14 @@ input[type="submit"].btn-block {
     color: #3a3b45;
     text-align: inherit;
     white-space: nowrap;
-    background-color: transparent;
+    background-color: #eaecf4;
     border: 0;
 }
 .dropdown-item:focus,
 .dropdown-item:hover {
     color: #2e2f37;
     text-decoration: none;
-    background-color: #eaecf4;
+    background-color: #ffffff;
 }
 .dropdown-item.active,
 .dropdown-item:active {

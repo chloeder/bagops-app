@@ -19,18 +19,20 @@ class UserSeeder extends Seeder
             [
                 'username' => 'User',
                 'name' => 'User',
-                'email' => 'user@gmail.com',
+                'email' => 'stewardyohanes29@gmail.com',
                 'role' => 0,
                 'password' => bcrypt('rahasia1234'),
                 'status' => 'inactive',
+                'satuan_kerja_id' => '1',
             ],
             [
                 'username' => 'Admin',
                 'name' => 'Admin',
-                'email' => 'admin@gmail.com',
+                'email' => 'serbaserbissdunia@gmail.com',
                 'role' => 1,
                 'password' => bcrypt('rahasia1234'),
                 'status' => 'active',
+                'satuan_kerja_id' => '1',
 
             ],
 

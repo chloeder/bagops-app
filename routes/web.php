@@ -23,6 +23,7 @@ Route::get('/', function () {
 Route::middleware(['guest'])->group(function () {
     Route::get('/login', [LoginController::class, 'index'])->name('login');
     Route::get('/register', [RegisterController::class, 'index'])->name('register');
+    Route::get('/forgot-password', [RegisterController::class, 'forgot_password'])->name('forgot.password');
 });
 
 Route::post('/login', [LoginController::class, 'authenticate'])->name('login.auth');
@@ -65,6 +66,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     // Settings
     Route::get('/user-list', [DashboardController::class, 'view_user'])->name('user.list');
     Route::put('/user-list/status/{id}', [DashboardController::class, 'update_status_user'])->name('update.status.user');
+    Route::put('/user-list/wilayah/{id}', [DashboardController::class, 'update_wilayah_user'])->name('update.wilayah.user');
 });
 
 Route::middleware(['auth', 'role:user'])->group(function () {

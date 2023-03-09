@@ -28,7 +28,7 @@
         </div>
         <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">List Berkas</h6>
+                <h6 class="m-0 font-weight-bold text-dark">List Berkas</h6>
             </div>
             <div class="card-body">
                 <form action="#" method="GET">
@@ -44,7 +44,7 @@
                             <div class="d-flex">
                                 <input type="date" name="tgl_akhir" id="tgl_akhir" class="form-control" required>
 
-                                <input type="submit" value="Filter" class="btn btn-primary ms-4">
+                                <input type="submit" value="Filter" class="btn btn-dark ms-4">
                             </div>
                         </div>
                     </div>
@@ -57,6 +57,7 @@
                                 <th>No Berkas</th>
                                 <th>Kategori</th>
                                 <th>Dimasukkan</th>
+                                <th>Nama Penginput</th>
                                 <th>Status</th>
                                 <th>Aksi</th>
                             </tr>
@@ -66,6 +67,7 @@
                                 <th>No Berkas</th>
                                 <th>Kategori</th>
                                 <th>Dimasukkan</th>
+                                <th>Nama Penginput</th>
                                 <th>Status</th>
                                 <th>Aksi</th>
                             </tr>
@@ -74,10 +76,20 @@
                             @forelse($berkas as $item)
                                 <tr>
                                     @if ($item->status_id == 2 || $item->status_id == 3)
-                                        <td class="align-middle">{{ $item->nomor_berkas }}</td>
+                                        <td class="align-middle"><span
+                                                class="badge badge-dark">{{ $item->nomor_berkas }}</span></td>
+                                        <td class="align-middle">
+                                            @if ($item->status_id == 2)
+                                                <span
+                                                    class="badge badge-success">{{ Carbon\Carbon::parse($item->created_at)->translatedFormat('d-F-Y H:i:s') }}</span>
+                                            @else
+                                                <span
+                                                    class="badge badge-warning">{{ Carbon\Carbon::parse($item->created_at)->translatedFormat('d-F-Y H:i:s') }}</span>
+                                            @endif
+                                        </td>
                                         <td class="align-middle">{{ $item->category->nama }}</td>
                                         <td class="align-middle">
-                                            {{ \Carbon\Carbon::parse($item->created_at)->translatedFormat('d F Y') }}
+                                            {{ $item->user->name }} ({{ $item->user->satker->nama }})
                                         </td>
                                         @if ($item->status_id == 2)
                                             <td class="align-middle">
@@ -235,7 +247,7 @@
                                     oninput="this.setCustomValidity('')">
                                     <option selected>Pilih Disini</option>
                                     @foreach ($category as $c)
-                                        @if ($c->status == 'active')
+                                        @if ($c->status == 'Aktif')
                                             <option value="{{ $c->id }}">{{ $c->nama }}</option>
                                         @endif
                                     @endforeach
@@ -255,8 +267,8 @@
                             </div>
 
                             <div class="modal-footer">
-                                <button type="button" onClick="window.location.reload();"
-                                    class="btn btn-outline-primary" data-bs-dismiss="modal">
+                                <button type="button" onClick="window.location.reload();" class="btn btn-outline-dark"
+                                    data-bs-dismiss="modal">
                                     Keluar
                                 </button>
                                 <button type="submit" class="btn btn-primary">Update Berkas</button>

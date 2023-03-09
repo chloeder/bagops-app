@@ -10,7 +10,7 @@
         </div>
         <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">List Berkas</h6>
+                <h6 class="m-0 font-weight-bold text-dark">List Berkas</h6>
             </div>
             <div class="card-body">
                 @if (session()->has('status'))
@@ -27,6 +27,7 @@
                                 <th>Kategori</th>
                                 <th>Dimasukkan</th>
                                 <th>File</th>
+                                <th>Nama Penginput</th>
                                 <th>Status</th>
                                 <th>Aksi</th>
                             </tr>
@@ -37,6 +38,7 @@
                                 <th>Judul</th>
                                 <th>Kategori</th>
                                 <th>File</th>
+                                <th>Nama Penginput</th>
                                 <th>Status</th>
                                 <th>Aksi</th>
                             </tr>
@@ -45,11 +47,20 @@
                             @forelse($berkas as $item)
                                 <tr>
                                     @if ($item->status_id == 1)
-                                        <td class="align-middle">{{ $item->nomor_berkas }}</td>
-                                        <td class="align-middle">{{ $item->category->nama }}</td>
+                                        <td class="align-middle"><span
+                                                class="badge badge-dark">{{ $item->nomor_berkas }}</span></td>
                                         <td class="align-middle">
-                                            {{ \Carbon\Carbon::parse($item->created_at)->translatedFormat('d F Y') }}</td>
-                                        <td class="align-middle">{{ $item->file }}</td>
+                                            <span
+                                                class="badge badge-info">{{ Carbon\Carbon::parse($item->created_at)->translatedFormat('d-F-Y H:i:s') }}</span>
+                                        </td>
+                                        <td class="align-middle">{{ $item->category->nama }}</td>
+                                        <td class="align-middle"> <a href="{{ route('dokumen.download', $item->id) }}"
+                                                type="button" class="btn btn-sm btn-success">
+                                                <i class="bi bi-download"></i>
+                                            </a></td>
+                                        <td class="align-middle">
+                                            {{ $item->user->name }} ({{ $item->user->satker->nama }})
+                                        </td>
                                         <td class="align-middle"><span
                                                 class="badge badge-info">{{ $item->status->nama }}</span></td>
 

@@ -20,7 +20,7 @@
                                 <th>No Berkas</th>
                                 <th>Kategori</th>
                                 <th>Dimasukkan</th>
-                                <th>Penginput</th>
+                                <th>Nama Penginput</th>
                                 <th>Status</th>
                                 <th>Aksi</th>
                             </tr>
@@ -30,7 +30,7 @@
                                 <th>No Berkas</th>
                                 <th>Judul</th>
                                 <th>Kategori</th>
-                                <th>Penginput</th>
+                                <th>Nama Penginput</th>
                                 <th>Status</th>
                                 <th>Aksi</th>
                             </tr>
@@ -39,13 +39,18 @@
                             @forelse($berkas as $item)
                                 <tr>
                                     @if ($item->status_id == 4)
-                                        <td class="align-middle">{{ $item->nomor_berkas }}</td>
+                                        <td class="align-middle"><span
+                                                class="badge badge-dark">{{ $item->nomor_berkas }}</span></td>
+                                        <td class="align-middle">
+                                            <span
+                                                class="badge badge-danger">{{ Carbon\Carbon::parse($item->created_at)->translatedFormat('d-F-Y H:i:s') }}</span>
+                                        </td>
                                         <td class="align-middle">{{ $item->category->nama }}</td>
+                                        <td class="align-middle">{{ $item->user->name }} ({{ $item->user->satker->nama }})
+                                        </td>
                                         <td class="align-middle">
-                                            {{ \Carbon\Carbon::parse($item->created_at)->translatedFormat('d F Y') }}</td>
-                                        <td class="align-middle">{{ $item->user->name }}</td>
-                                        <td class="align-middle">
-                                            <span class="badge badge-danger">{{ $item->status->nama }}</span>
+                                            <span class="badge badge-danger">{{ $item->status->nama }}
+                                            </span>
                                         </td>
                                         <td class="align-middle">
                                             <div class="d-inline-flex">
@@ -109,7 +114,7 @@
                         </div>
                         <div class="mb-2">
                             <label for="judul" name="judul" class="mb-2 fw-bolder">Petugas yang Memasukkan :</label>
-                            <span>{{ $item->user->name }}</span>
+                            <span>{{ $item->user->name }} ({{ $item->user->satker->nama }})</span>
                         </div>
                         <div class="mb-2">
                             <label for="judul" name="judul" class="mb-2 fw-bolder">Status :</label>

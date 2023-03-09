@@ -6,8 +6,7 @@
         <h1 class="h3 mb-2 text-gray-800">Berkas</h1>
         <p class="mb-4">Silahkan menambahkan Berkas sesuai dengan keperluan yang dibutuhkan</p>
         <div class="single-work wow fadeInUp text-start" data-wow-delay=".2s">
-            <button type="button" class="btn btn-sm btn-primary shadow-sm mb-3" data-bs-toggle="modal"
-                data-bs-target="#berkas">
+            <button type="button" class="btn btn-sm btn-dark shadow-sm mb-3" data-bs-toggle="modal" data-bs-target="#berkas">
                 <i class="fas fa-download fa-sm text-white-150"></i> Unggah Berkas
             </button>
         </div>
@@ -20,12 +19,12 @@
 
         <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">List Berkas</h6>
+                <h6 class="m-0 font-weight-bold text-dark">List Berkas</h6>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                        <thead>
+                        <thead class="">
                             <tr>
                                 <th>No Berkas</th>
                                 <th>Judul</th>
@@ -44,7 +43,7 @@
                         <tbody>
                             @foreach ($berkas as $item)
                                 <tr>
-                                    <td>{{ $item->nomor_berkas }}</td>
+                                    <td><span class="badge badge-dark">{{ $item->nomor_berkas }}</span></td>
                                     <td>{{ $item->judul }}</td>
                                     <td>{{ $item->category->nama }}</td>
                                     @if ($item->status_id == 1)
@@ -85,14 +84,14 @@
             data-bs-backdrop="static">
             <div class="modal-dialog modal-lg mx-0 mx-sm-auto">
                 <div class="modal-content">
-                    <div class="modal-header bg-primary">
+                    <div class="modal-header bg-dark">
                         <h5 class="modal-title text-white" id="berkasLabel">Form Pemasukkan Berkas</h5>
                         <button type="button" onClick="window.location.reload();" class="btn-close text-white"
                             data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="text-center">
-                            <i class="far fa-file-alt fa-4x mb-3 text-primary"></i>
+                            <i class="far fa-file-alt fa-4x mb-3 text-dark"></i>
 
                             <p>
                                 Mohon di isi sesuai dengan <strong>Persyaratan Berkas</strong> yang di Tentukan
@@ -119,7 +118,7 @@
                                     oninput="this.setCustomValidity('')">
                                     <option selected>Pilih Disini</option>
                                     @foreach ($category as $c)
-                                        @if ($c->status == 'active')
+                                        @if ($c->status == 'Aktif')
                                             <option value="{{ $c->id }}">{{ $c->nama }}</option>
                                         @endif
                                     @endforeach
@@ -132,7 +131,7 @@
                         <div class="row align-items-center g-4 mb-4">
                             <div class="col">
                                 <label class="form-label" for="keterangan">Keterangan</label>
-                                <textarea type="text" min="0" class="form-control @error('keterangan') is-invalid @enderror" id="keterangan"
+                                <textarea min="0" class="form-control @error('keterangan') is-invalid @enderror" id="keterangan"
                                     name="keterangan" required oninvalid="this.setCustomValidity('Bagian ini tidak boleh kosong')"
                                     oninput="this.setCustomValidity('')">
                                     </textarea>
@@ -157,11 +156,11 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" onClick="window.location.reload();" class="btn btn-outline-primary"
+                        <button type="button" onClick="window.location.reload();" class="btn btn-outline-dark"
                             data-bs-dismiss="modal">
                             Keluar
                         </button>
-                        <button type="submit" class="btn btn-primary">Unggah Berkas</button>
+                        <button type="submit" class="btn btn-dark">Unggah Berkas</button>
                     </div>
                 </div>
             </div>

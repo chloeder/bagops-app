@@ -23,7 +23,7 @@
         @endif
         <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">List Berkas</h6>
+                <h6 class="m-0 font-weight-bold text-dark">List Berkas</h6>
             </div>
             <div class="card-body">
                 {{-- <h5 class="fw-bold" style="color: black">Filter</h5> --}}
@@ -40,7 +40,7 @@
                             <div class="d-flex">
                                 <input type="date" name="tgl_akhir" id="tgl_akhir" class="form-control" required>
 
-                                <input type="submit" value="Filter" class="btn btn-primary ms-4">
+                                <input type="submit" value="Filter" class="btn btn-dark ms-4">
                             </div>
                         </div>
                     </div>
@@ -73,7 +73,8 @@
                         <tbody>
                             @forelse($berkas as $item)
                                 <tr>
-                                    <td>{{ $item->nomor_berkas }}</td>
+                                    <td><span class="badge badge-dark">{{ $item->nomor_berkas }}</span>
+                                    </td>
                                     @if ($item->status_id == 1)
                                         <td class="align-middle">
                                             <span class="badge badge-info">{{ $item->status->nama }}</span>
@@ -97,7 +98,19 @@
                                         </td>
                                     @endif
                                     <td>
-                                        {{ Carbon\Carbon::parse($item->created_at)->translatedFormat('d-F-Y H:i:s') }}
+                                        @if ($item->status_id == 1)
+                                            <span
+                                                class="badge badge-info">{{ Carbon\Carbon::parse($item->created_at)->translatedFormat('d-F-Y H:i:s') }}</span>
+                                        @elseif($item->status_id == 2)
+                                            <span
+                                                class="badge badge-success">{{ Carbon\Carbon::parse($item->created_at)->translatedFormat('d-F-Y H:i:s') }}</span>
+                                        @elseif($item->status_id == 3)
+                                            <span
+                                                class="badge badge-warning">{{ Carbon\Carbon::parse($item->created_at)->translatedFormat('d-F-Y H:i:s') }}</span>
+                                        @else
+                                            <span
+                                                class="badge badge-danger">{{ Carbon\Carbon::parse($item->created_at)->translatedFormat('d-F-Y H:i:s') }}</span>
+                                        @endif
                                     </td>
                                     <td>{{ $item->category->nama }}</td>
                                     <td>{{ $item->keterangan }}</td>

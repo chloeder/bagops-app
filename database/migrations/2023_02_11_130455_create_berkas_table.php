@@ -19,10 +19,10 @@ return new class extends Migration
             $table->string('nomor_berkas');
             $table->string('keterangan');
             $table->string('file');
-            $table->foreignId('category_id');
-            $table->foreignId('user_id');
+            $table->foreignIdFor(\App\Models\Category::class, 'category_id');
+            $table->foreignIdFor(\App\Models\User::class, 'user_id');
             // 1 = Tertunda, 2 = Diterima, 3 = Terlambat
-            $table->foreignId('status_id')->default(1);
+            $table->foreignIdFor(\App\Models\Status::class, 'status_id')->default(1);
             $table->timestamps();
         });
     }

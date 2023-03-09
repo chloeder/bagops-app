@@ -23,7 +23,10 @@ class User extends Authenticatable
         'username',
         'email',
         'password',
+        'role',
         'status',
+        'satuan_kerja_id',
+
     ];
 
     /**
@@ -54,5 +57,20 @@ class User extends Authenticatable
         return new Attribute(
             get: fn ($value) =>  ["user", "admin"][$value],
         );
+    }
+
+    public function berkas()
+    {
+        return $this->hasMany(Berkas::class);
+    }
+
+    public function category()
+    {
+        return $this->hasMany(Category::class);
+    }
+
+    public function satker()
+    {
+        return $this->belongsTo(SatuanKerja::class, 'satuan_kerja_id',);
     }
 }

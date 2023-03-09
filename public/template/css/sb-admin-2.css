@@ -3440,7 +3440,7 @@ input[type="button"].btn-block {
     border: 0;
 }
 
-.dropdown-item:hover,
+.over,
 .dropdown-item:focus {
     color: #2e2f37;
     text-decoration: none;
