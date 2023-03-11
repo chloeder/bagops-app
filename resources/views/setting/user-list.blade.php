@@ -34,7 +34,7 @@
                                 <th>Email</th>
                                 <th>Satuan Kerja</th>
                                 <th>Status</th>
-                                <th>Aksi</th>
+                                {{-- <th>Aksi</th> --}}
 
                             </tr>
                         </thead>
@@ -45,7 +45,7 @@
                                 <th>Email</th>
                                 <th>Satuan Kerja</th>
                                 <th>Status</th>
-                                <th>Aksi</th>
+                                {{-- <th>Aksi</th> --}}
 
                             </tr>
                         </tfoot>
@@ -99,7 +99,7 @@
                                             </form>
                                         @endif
                                     </td>
-                                    <td>
+                                    {{-- <td>
                                         <div class="d-flex">
                                             <form action="{{ route('update.wilayah.user', $item->id) }}" method="post"
                                                 class="form d-flex">
@@ -117,7 +117,7 @@
                                                 <input type="submit" value="Update" class="btn btn-sm btn-primary ms-2">
                                             </form>
                                         </div>
-                                    </td>
+                                    </td> --}}
                                 </tr>
                             @empty
                             @endforelse

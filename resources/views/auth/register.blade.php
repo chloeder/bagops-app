@@ -69,6 +69,20 @@
                                         <div class="invalid-tooltip">{{ $message }}</div>
                                     @enderror
                                 </div>
+                                <div class="form-group row-0">
+                                    <select class="form-control btn btn-sm btn-outline-dark rounded @error('satuan_kerja_id') is-invalid @enderror"
+                                        id="satuan_kerja_id" name="satuan_kerja_id" required>
+                                        <option selected>Pilih Satuan Kerja</option>
+                                        @foreach ($satker as $item)
+                                            <option value="{{ $item->id }}">
+                                                {{ $item->nama }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    @error('satuan_kerja_id')
+                                        <div class="invalid-tooltip">{{ $message }}</div>
+                                    @enderror
+                                </div>
                                 <hr>
                                 <button class="btn btn-primary btn-user btn-block">
                                     Register Account

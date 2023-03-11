@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\SatuanKerja;
 use App\Models\User;
 use App\Notifications\ForAdminNotif;
 use App\Notifications\NewUser;
@@ -13,7 +14,8 @@ class RegisterController extends Controller
 {
     public function index()
     {
-        return view('auth.register');
+        $satker = SatuanKerja::where('id', '>', 1)->get();
+        return view('auth.register', compact('satker'));
     }
 
     public function store(Request $request)
@@ -23,6 +25,7 @@ class RegisterController extends Controller
             'username' => 'required|min:3|max:255|unique:users',
             'email' => 'required|email|unique:users',
             'password' => 'required|min:5|max:255',
+            'satuan_kerja_id' => 'required',
         ]);
         $validated['password'] = Hash::make($validated['password']);
         User::create($validated);
