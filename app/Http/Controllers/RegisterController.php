@@ -34,8 +34,5 @@ class RegisterController extends Controller
         return redirect()->route('login')->with('success', 'Registrasi telah berhasil, Menunggu konfirmasi dari admin');
     }
 
-    public function forgot_password()
-    {
-        return view('auth.forgot-password');
-    }
+
 }

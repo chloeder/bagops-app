@@ -19,7 +19,9 @@
         rel="stylesheet">
 
     <!-- Custom styles for this template-->
+    <!-- Custom styles for this template-->
     <link href="{{ asset('template/css/sb-admin-2.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('template/vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
 </head>
 
 <body class="bg-gradient-dark">
@@ -36,40 +38,44 @@
                             <div class="col-lg-6">
                                 <div class="p-5">
                                     <div class="text-center">
-                                        <h1 class="h4 text-gray-900 mb-2">Lupa Password?</h1>
-                                        @if (session('status') == null && session('error') == null)
-                                            <p class="mb-4 text-secondary">
-                                                Masukkan alamat email Anda di bawah ini dan kami akan
-                                                mengirimkan tautan untuk mereset kata sandi Anda!
-                                            </p>
-                                        @elseif (session('status'))
-                                            <p class="mb-4 text-success">
-                                                Kami telah mengirimkan email untuk mereset kata sandi Anda!
-                                            </p>
-                                        @elseif(session('error'))
-                                            <p class="mb-4 text-danger">
-                                                Maaf untuk saat ini, email anda tidak terdaftar di Sistem kami!
-                                            </p>
+                                        <h1 class="h4 text-gray-900 mb-4">Ganti Password</h1>
+                                        @if (session('status'))
+                                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                                {{ session('status') }}
+                                                <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                        @endif
+                                        @if ($errors->any())
+                                            <div class="alert alert-danger ">
+                                                <ul>
+                                                    @foreach ($errors->all() as $error)
+                                                        <li>{{ $error }}</li>
+                                                    @endforeach
+                                                </ul>
+                                            </div>
                                         @endif
                                     </div>
-                                    <form class="user" action="{{ route('password.email') }}" method="POST">
+                                    <form class="user" action="{{ route('password.update') }}" method="POST">
                                         @csrf
                                         <div class="form-group">
-                                            <input type="email" name="email" class="form-control form-control-user"
-                                                id="exampleInputEmail" aria-describedby="emailHelp"
-                                                placeholder="Enter Email Address..." required>
+                                            <input type="hidden" name="token" value="{{ request()->token }}">
+                                            <input type="hidden" name="email" value="{{ request()->email }}">
+                                            <input type="password" name="password"
+                                                class="form-control form-control-user" id="password"
+                                                placeholder="Password Baru" required />
                                         </div>
+                                        <div class="form-group">
+                                            <input type="password" name="password_confirmation"
+                                                class="form-control form-control-user" id="password_confirmation"
+                                                placeholder="Konfirmasi Password" required />
+                                        </div>
+                                        <hr />
                                         <button type="submit" class="btn btn-primary btn-user btn-block">
-                                            Send Password Reset Link
+                                            Ganti Password
                                         </button>
                                     </form>
-                                    <hr>
-                                    <div class="text-center">
-                                        <a class="small" href="{{ route('register') }}">Buat Akun</a>
-                                    </div>
-                                    <div class="text-center">
-                                        <a class="small" href="{{ route('login') }}">Sudah Punya akun? Login</a>
-                                    </div>
+                                    <hr />
                                 </div>
                             </div>
                         </div>

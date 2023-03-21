@@ -342,6 +342,7 @@
         var total_berkas = {!! json_encode($total_berkas) !!};
         var bulan = {!! json_encode($bulan) !!};
         Highcharts.chart('grafik', {
+
             title: {
                 text: 'Polres Minahasa'
             },

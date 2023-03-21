@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ResetPasswordController;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 /*
@@ -23,7 +24,10 @@ Route::get('/', function () {
 Route::middleware(['guest'])->group(function () {
     Route::get('/login', [LoginController::class, 'index'])->name('login');
     Route::get('/register', [RegisterController::class, 'index'])->name('register');
-    Route::get('/forgot-password', [RegisterController::class, 'forgot_password'])->name('forgot.password');
+    Route::get('/forgot-password', [ResetPasswordController::class, 'forgot_password'])->name('forgot.password');
+    Route::post('/forgot-password', [ResetPasswordController::class, 'send_link'])->name('password.email');
+    Route::get('/reset-password/{token}', [ResetPasswordController::class, 'reset_password'])->name('password.reset');
+    Route::post('/reset-password', [ResetPasswordController::class, 'update_password'])->name('password.update');
 });
 
 Route::post('/login', [LoginController::class, 'authenticate'])->name('login.auth');
