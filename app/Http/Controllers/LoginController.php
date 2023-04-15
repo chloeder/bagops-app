@@ -31,7 +31,7 @@ class LoginController extends Controller
             }
             $request->session()->regenerate();
 
-            return redirect()->intended('dashboard');
+            return redirect()->intended('dashboard')->with('success', 'Selamat Datang ' . Auth::user()->name);
         }
 
         return back()->with('error', 'Username atau Password Anda Salah!');

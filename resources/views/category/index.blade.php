@@ -39,7 +39,7 @@
                             <input type="text" name="nama"
                                 class="form-control form-control-user @error('nama') is-invalid @enderror"
                                 id="exampleInputEmail" aria-describedby="emailHelp"
-                                placeholder="Silahkan input Nama Kategori ..." required />
+                                placeholder="Silahkan input Nama Kategori ..." />
                             @error('nama')
                                 <div class="alert alert-danger">{{ $message }}</div>
                             @enderror

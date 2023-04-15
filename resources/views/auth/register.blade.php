@@ -39,41 +39,9 @@
                             <form class="user" action="{{ route('register.store') }}" method="POST">
                                 @csrf
                                 <div class="form-group row">
-                                    <input name="name" type="text"
-                                        class="form-control form-control-user @error('name') is-invalid @enderror"
-                                        id="name" placeholder="Nama" required value="{{ old('name') }}">
-                                    @error('name')
-                                        <div class="invalid-tooltip">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                                <div class="form-group row">
-                                    <input name="username" type="text"
-                                        class="form-control form-control-user @error('username') is-invalid @enderror"
-                                        id="username" placeholder="Username" required value="{{ old('username') }}">
-                                    @error('username')
-                                        <div class="invalid-tooltip">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                                <div class="form-group row">
-                                    <input name="email" type="email"
-                                        class="form-control form-control-user @error('email') is-invalid @enderror"
-                                        id="email" placeholder="Email Address" required value="{{ old('email') }}">
-                                    @error('email')
-                                        <div class="invalid-tooltip">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                                <div class="form-group row">
-                                    <input name="password" type="password"
-                                        class="form-control form-control-user @error('password') is-invalid @enderror"
-                                        id="exampleInputPassword" placeholder="Password">
-                                    @error('password')
-                                        <div class="invalid-tooltip">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                                <div class="form-group row">
                                     <select
                                         class="form-control btn btn-sm btn-outline-dark rounded @error('satuan_kerja_id') is-invalid @enderror"
-                                        id="satuan_kerja_id" name="satuan_kerja_id" required>
+                                        id="satuan_kerja_id" name="satuan_kerja_id" >
                                         <option selected>Pilih Satuan Kerja</option>
                                         @foreach ($satker as $item)
                                             <option value="{{ $item->id }}">
@@ -82,9 +50,43 @@
                                         @endforeach
                                     </select>
                                     @error('satuan_kerja_id')
-                                        <div class="invalid-tooltip">{{ $message }}</div>
+                                        <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
+                                <div class="form-group row">
+                                    <input name="name" type="text"
+                                        class="form-control form-control-user @error('name') is-invalid @enderror"
+                                        id="name" placeholder="Nama"  value="{{ old('name') }}">
+                                    @error('name')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="form-group row">
+                                    <input name="username" type="text"
+                                        class="form-control form-control-user @error('username') is-invalid @enderror"
+                                        id="username" placeholder="Username"  value="{{ old('username') }}">
+                                    @error('username')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="form-group row">
+                                    <input name="email" type="email"
+                                        class="form-control form-control-user @error('email') is-invalid @enderror"
+                                        id="email" placeholder="Email Address" 
+                                        value="{{ old('email') }}">
+                                    @error('email')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="form-group row">
+                                    <input name="password" type="password"
+                                        class="form-control form-control-user @error('password') is-invalid @enderror"
+                                        id="exampleInputPassword" placeholder="Password">
+                                    @error('password')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
                                 <hr>
                                 <button class="btn btn-primary btn-user btn-block">
                                     Register Account

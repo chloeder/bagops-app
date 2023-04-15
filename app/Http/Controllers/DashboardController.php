@@ -144,18 +144,20 @@ class DashboardController extends Controller
         $validated = $request->validate([
             'nama' => 'required|unique:categories|min:5|max:255',
         ], [
-            'nama.unique' => 'Nama Kategori telah Ada'
+            'nama.unique' => 'Nama Kategori telah Ada',
+            'nama.required' => 'Nama Kategori tidak boleh kosong',
+            'nama.min' => 'Nama Kategori minimal 5 karakter',
         ]);
         $category = Category::create($validated);
 
-        return redirect()->route('kategori', compact('category'))->with('message', 'Kategori Baru Telah Ditambahkan');
+        return redirect()->route('kategori', compact('category'))->with('success', 'Kategori Baru Telah Ditambahkan');
     }
 
     public function hapus_kategori($id)
     {
         $category = Category::find($id);
         $category->delete();
-        return redirect()->back()->with('delete', 'Kategori berhasil Dihapus');
+        return redirect()->back()->with('danger', 'Kategori berhasil Dihapus');
     }
 
     public function update_status_kategori(Category $category, $id)
@@ -171,7 +173,7 @@ class DashboardController extends Controller
         Notification::send($user, new CategoryActivation($category));
         // dd($category);
         // dd($category);
-        return redirect()->back()->with('status', 'Kategori status berhasil diperbaharui');
+        return redirect()->back()->with('success', 'Kategori status berhasil diperbaharui');
     }
     // End Of Kategori
 
@@ -205,7 +207,7 @@ class DashboardController extends Controller
     {
         $berkas = Berkas::find($id);
         $berkas->delete();
-        return redirect()->back()->with('delete', 'Kategori berhasil Dihapus');
+        return redirect()->back()->with('danger', 'Data berhasil Dihapus');
     }
 
     public function update_dokumen(Request $r, $id)
@@ -217,7 +219,7 @@ class DashboardController extends Controller
         ];
         $validated = $r->validate($rules);
         $berkas = Berkas::where('id', $id)->update($validated);
-        return redirect()->back(['berkas' => $berkas])->with('message', 'Data berhasil diperbaharui');
+        return redirect()->back(['berkas' => $berkas])->with('success', 'Data berhasil diperbaharui');
     }
 
     public function view_tertunda(Request $request)
@@ -259,9 +261,9 @@ class DashboardController extends Controller
 
             );
             Notification::send($user, new UpdateStatus($getStatus));
-            return redirect()->back();
+            return redirect()->back()->with('success', 'Status berhasil diperbaharui');
         } else {
-            return redirect()->back();
+            return redirect()->back()->with('danger', 'Status gagal diperbaharui');
         }
     }
 
@@ -295,7 +297,7 @@ class DashboardController extends Controller
         // dd($member);
         User::where('id', $id)->update(['status' => $status]);
 
-        return redirect()->back()->with('status', 'User status berhasil diperbaharui');
+        return redirect()->back()->with('success', 'User status berhasil diperbaharui');
     }
 
 
@@ -371,7 +373,7 @@ class DashboardController extends Controller
         Notification::send($user, new UploadBerkas($berkas, $satker));
         echo $berkas->nomor_berkas;
         // dd($berkas);
-        return redirect()->route('berkas', compact('berkas'))->with('message', 'Data Baru berhasil Ditambahkan!');
+        return redirect()->route('berkas', compact('berkas'))->with('success', 'Data Baru berhasil Ditambahkan!');
     }
     // End Of Berkas
 

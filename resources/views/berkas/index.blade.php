@@ -30,6 +30,7 @@
                                 <th>Judul</th>
                                 <th>Kategori</th>
                                 <th>Status</th>
+                                <th>Aksi</th>
                             </tr>
                         </thead>
                         <tfoot>
@@ -38,6 +39,7 @@
                                 <th>Judul</th>
                                 <th>Kategori</th>
                                 <th>Status</th>
+                                <th>Aksi</th>
                             </tr>
                         </tfoot>
                         <tbody>
@@ -68,6 +70,13 @@
                                             <p style="font-size: 10px" class="text-danger">*Berkas belum memenuhi syarat</p>
                                         </td>
                                     @endif
+                                    <td class="align-middle">
+                                        <div class="d-inline-flex">
+                                            <button type="button" class="btn btn-sm btn-info me-2" data-bs-toggle="modal"
+                                                data-bs-target="#detailberkas-{{ $item->id }}">
+                                                <i class="bi bi-eye-fill"></i>
+                                            </button>
+                                        </div>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -166,4 +175,71 @@
             </div>
         </div>
     </form>
+
+    {{-- Detail --}}
+    @foreach ($berkas as $item)
+        <div class="modal fade" id="detailberkas-{{ $item->id }}" tabindex="-1" role="dialog"
+            aria-labelledby="detailberkas-{{ $item->id }}" aria-hidden="true" data-bs-backdrop="static">
+            <div class="modal-dialog modal-lg mx-0 mx-sm-auto">
+                <div class="modal-content">
+                    <div class="modal-header bg-primary">
+                        <h5 class="modal-title text-white" id="berkasLabel">Detail Berkas</h5>
+                        <button type="button" onClick="window.location.reload();" class="btn-close text-white"
+                            data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="text-center">
+                            <p>
+                                Berikut adalah Detail dari Berkas Nomor <strong>{{ $item->nomor_berkas }}</strong>
+                            </p>
+                        </div>
+                        <hr>
+                        <div class="mt-5 mb-2">
+                            <label for="judul" name="nomor_berkas" class="mb-2 fw-bolder">Nomor Berkas :</label>
+                            <span>{{ $item->nomor_berkas }}</span>
+                        </div>
+                        <div class="mb-2">
+                            <label for="judul" name="judul" class="mb-2 fw-bolder">Judul :</label>
+                            <span>{{ $item->judul }}</span>
+                        </div>
+                        <div class="mb-2">
+                            <label for="judul" name="category_id" class="mb-2 fw-bolder">Kategori :</label>
+                            <span>{{ $item->category->nama }}</span>
+                        </div>
+                        <div class="mb-2">
+                            <label for="judul" name="keterangan" class="mb-2 fw-bolder">Keterangan :</label>
+                            <span>{{ $item->keterangan }}</span>
+                        </div>
+                        <div class="mb-2">
+                            <label for="judul" name="judul" class="mb-2 fw-bolder">Tanggal Dimasukkan :</label>
+                            <span>{{ \Carbon\Carbon::parse($item->created_at)->translatedFormat('d F Y') }}</span>
+                        </div>
+                        <div class="mb-2">
+                            <label for="judul" name="judul" class="mb-2 fw-bolder">Petugas yang Memasukkan :</label>
+                            <span>{{ $item->user->name }}</span>
+                        </div>
+                        <div class="mb-2">
+                            <label for="judul" name="judul" class="mb-2 fw-bolder">Status :</label>
+                            @if ($item->status_id == 2)
+                                <td class="align-middle">
+                                    <span class="badge badge-success">{{ $item->status->nama }}</span>
+                                </td>
+                            @else
+                                <td class="align-middle">
+                                    <span class="badge badge-warning">{{ $item->status->nama }}</span>
+                                </td>
+                            @endif
+                        </div>
+                        <div class="mb-2">
+                            <label for="judul" name="judul" class="mb-2 fw-bolder">File :</label>
+                            <a href="{{ route('dokumen.download', $item->id) }}">
+                                <button type="button" class="btn btn-sm btn-success">Download</button>
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endforeach
 @endsection
