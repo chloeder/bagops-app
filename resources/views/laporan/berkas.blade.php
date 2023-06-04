@@ -114,7 +114,7 @@
                                     </td>
                                     <td>{{ $item->category->nama }}</td>
                                     <td>{{ $item->keterangan }}</td>
-                                    <td>{{ $item->user->name }}</td>
+                                    <td>{{ $item->user->name }} ({{ $item->user->satker->nama }})</td>
                                 </tr>
                             @empty
                             @endforelse

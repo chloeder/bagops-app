@@ -23,6 +23,7 @@ use App\Notifications\FormRequestNotification;
 use App\Notifications\StatusBerkas as NotificationsStatusBerkas;
 use App\Notifications\UpdateStatus;
 use Illuminate\Support\Facades\DB as FacadesDB;
+use ZanySoft\LaravelPDF\PDF;
 
 class DashboardController extends Controller
 {
@@ -318,12 +319,13 @@ class DashboardController extends Controller
     }
     // End of User
 
+
     // Download
     public function download_dokumen($id)
     {
         $berkas = Berkas::where('id', $id)->first();
-        $file = $berkas->file;
-        return response()->download(storage_path('app/dataFile/' . $file));
+        $path = public_path('storage/berkas' . $berkas->file);
+        return response()->download($path);
     }
     // End of Download
 
@@ -355,15 +357,17 @@ class DashboardController extends Controller
                 'keterangan' => 'required|max:255',
                 'category_id' => 'required',
                 'status_id' => 'nullable',
-                'file' => 'required|mimes:ppt,pptx,doc,docx,txt,pdf,xls,xlsx,jpeg,jpg,png,psd,gif,raw,zip|max:204800',
+                'file' => 'required|mimes:pdf,jpeg,jpg,png|max:204800',
             ],
         );
 
         $validated['user_id'] = auth()->user()->id;
 
         if ($request->hasFile('file')) {
+            $pdf = new PDF();
             $validated['file'] = $request->file->getClientOriginalName();
-            $request->file->storeAs('dataFile', $validated['file']);
+            $request->file->storeAs('public/berkas', $validated['file']);
+            $pdf->save('public/berkas/' . $validated['file']);
         } else {
             $validated = 'nodatafound';
         }

@@ -18,8 +18,8 @@
                         <thead>
                             <tr>
                                 <th>No Berkas</th>
+                                <th>Judul</th>
                                 <th>Kategori</th>
-                                <th>Dimasukkan</th>
                                 <th>Nama Penginput</th>
                                 <th>Status</th>
                                 <th>Aksi</th>

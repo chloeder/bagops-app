@@ -55,8 +55,8 @@
                         <thead>
                             <tr>
                                 <th>No Berkas</th>
+                                <th>Tgl Dimasukkan</th>
                                 <th>Kategori</th>
-                                <th>Dimasukkan</th>
                                 <th>Nama Penginput</th>
                                 <th>Status</th>
                                 <th>Aksi</th>
@@ -65,8 +65,8 @@
                         <tfoot>
                             <tr>
                                 <th>No Berkas</th>
+                                <th>Tgl Dimasukkan</th>
                                 <th>Kategori</th>
-                                <th>Dimasukkan</th>
                                 <th>Nama Penginput</th>
                                 <th>Status</th>
                                 <th>Aksi</th>
@@ -124,8 +124,6 @@
                                                     class="btn btn-sm btn-success">
                                                     <i class="bi bi-download"></i>
                                                 </a>
-
-
                                             </div>
                                         </td>
                                     @else
@@ -160,8 +158,9 @@
                                 Berikut adalah Detail dari Berkas Nomor <strong>{{ $item->nomor_berkas }}</strong>
                             </p>
                         </div>
-                        <hr>
-                        <div class="mt-5 mb-2">
+                        <hr class="border-1">
+
+                        <div class="mt-3 mb-2">
                             <label for="judul" name="nomor_berkas" class="mb-2 fw-bolder">Nomor Berkas :</label>
                             <span>{{ $item->nomor_berkas }}</span>
                         </div>
@@ -197,13 +196,11 @@
                                 </td>
                             @endif
                         </div>
-                        <div class="mb-2">
-                            <label for="judul" name="judul" class="mb-2 fw-bolder">File :</label>
-                            <a href="{{ route('dokumen.download', $item->id) }}">
-                                <button type="button" class="btn btn-sm btn-success">Download</button>
-                            </a>
+                        <label for="judul" name="judul" class="mb-2 fw-bolder">Lampiran File :</label>
+                        <div class=" mb-2 text-center">
+                            <iframe src="{{ asset('/storage/berkas/' . $item->file) }}" frameborder="10" width="600"
+                                height="600"></iframe>
                         </div>
-
                     </div>
                 </div>
             </div>

@@ -195,6 +195,8 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Alfa6661\AutoNumber\AutoNumberServiceProvider::class,
+        ZanySoft\LaravelPDF\PdfServiceProvider::class,
+
 
     ],
 
@@ -211,6 +213,7 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'ExampleClass' => App\Example\ExampleClass::class,
+        'PDF' => ZanySoft\LaravelPDF\Facades\PDF::class
     ])->toArray(),
 
 ];
