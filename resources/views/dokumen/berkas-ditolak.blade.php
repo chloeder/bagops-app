@@ -18,7 +18,7 @@
                         <thead>
                             <tr>
                                 <th>No Berkas</th>
-                                <th>Judul</th>
+                                <th>Tgl Dimasukkan</th>
                                 <th>Kategori</th>
                                 <th>Nama Penginput</th>
                                 <th>Status</th>
@@ -28,7 +28,7 @@
                         <tfoot>
                             <tr>
                                 <th>No Berkas</th>
-                                <th>Judul</th>
+                                <th>Tgl Dimasukkan</th>
                                 <th>Kategori</th>
                                 <th>Nama Penginput</th>
                                 <th>Status</th>
