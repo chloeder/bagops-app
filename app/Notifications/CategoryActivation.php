@@ -43,7 +43,7 @@ class CategoryActivation extends Notification
     {
         if ($this->category->status == 'Nonaktif') {
             return (new MailMessage)
-                ->greeting('LAPOR - OPS APPLICATION')
+                ->greeting('Halo, ' . $notifiable->name . ' ' . '( ' . $notifiable->satker->nama . ' )')
                 ->subject('Kategori Laporan Dinonaktifkan' . ' ( ' . $this->category->nama . ' ) ')
                 ->line('Kategori Laporan telah dinonaktifkan')
                 ->action('Lihat Form', url(route('berkas')))
@@ -51,7 +51,7 @@ class CategoryActivation extends Notification
         } else {
 
             return (new MailMessage)
-                ->greeting('LAPOR - OPS APPLICATION')
+                ->greeting('Halo, ' . $notifiable->name . '( ' . $notifiable->satker->nama . ' )')
                 ->subject('Kategori Laporan Baru' . ' ( ' . $this->category->nama . ' ) ')
                 ->line('Anda mempunyai kategori laporan baru untuk dimasukkan.')
                 ->action('Lihat Form', url(route('berkas')))

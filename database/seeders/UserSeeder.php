@@ -23,7 +23,7 @@ class UserSeeder extends Seeder
                 'role' => 0,
                 'password' => bcrypt('rahasia1234'),
                 'status' => 'inactive',
-                'satuan_kerja_id' => '1',
+                'satuan_kerja_id' => '2',
             ],
             [
                 'username' => 'Admin',

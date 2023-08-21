@@ -41,7 +41,8 @@ class ActivationUser extends Notification
     {
 
         return (new MailMessage)
-            ->greeting('LAPOR - OPS APPLICATION')
+
+            ->greeting('Halo, ' . $notifiable->name . '( ' . $notifiable->satker->nama . ' )')
             ->subject('Activation User')
             ->line('Akun anda telah diaktifkan, silahkan melakukan login di Aplikasi')
             ->action('Login Disini', url(route('login')));

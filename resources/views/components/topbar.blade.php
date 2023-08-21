@@ -165,7 +165,7 @@
                                     </h6>
                                     @forelse($categorynotif as $n)
                                         <a class="dropdown-item d-flex align-items-center mark-as-read"
-                                            href="{{ route('user.list') }}" data-id="{{ $n->id }}">
+                                            href="{{ route('berkas') }}" data-id="{{ $n->id }}">
                                             <div class="mr-3">
                                                 <div class="icon-circle bg-dark">
                                                     <i class="fas fa-file-alt text-white"></i>

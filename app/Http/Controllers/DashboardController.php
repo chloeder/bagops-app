@@ -78,7 +78,7 @@ class DashboardController extends Controller
         }
 
         return view('dashboard', ['statusberkas' => $statusberkas, 'table_berkas' => $table_berkas, 'categorynotif' => $categorynotif, 'bulan' => $bulan, 'total_berkas' => $total_berkas, 'user' => $user, 'berkas' => $berkas, 'diterima' => $diterima, 'terlambat' => $terlambat, 'ditolak' => $ditolak, 'chart' => $chart->build()]);
-        // 
+        //
     }
     // End Of Dashboard
 
@@ -126,7 +126,7 @@ class DashboardController extends Controller
                 ->pluck('bulan');
         }
         return view('cetak.index', ['bulan' => $bulan, 'total_berkas' => $total_berkas, 'user' => $user, 'berkas' => $berkas, 'diterima' => $diterima, 'terlambat' => $terlambat, 'ditolak' => $ditolak, 'chart' => $chart->build()]);
-        // 
+        //
     }
     // End Of Cetak Grafik
 
@@ -137,6 +137,7 @@ class DashboardController extends Controller
         // dd($newuser);
         $newberkas = User::find(2)->unreadNotifications->where('type', 'App\Notifications\UploadBerkas');
         $category = Category::all();
+
         return view('category.index', compact('category', 'newuser', 'newberkas'));
     }
 
@@ -165,20 +166,20 @@ class DashboardController extends Controller
     {
         $category = Category::where('id', $id)->first();
         $user = User::where('role', 0)->first();
-        if ($category->status == 'Aktif') {
+
+          if ($category->status == 'Aktif'  ) {
             $status = 'Nonaktif';
-        } else {
-            $status = 'Aktif';
-        }
-        $category->update(['status' => $status]);
-        Notification::send($user, new CategoryActivation($category));
-        // dd($category);
-        // dd($category);
-        return redirect()->back()->with('success', 'Kategori status berhasil diperbaharui');
+          }else {
+              $status = 'Aktif';
+          }
+          $category->update(['status' => $status]);
+          Notification::send($user, new CategoryActivation($category));
+          return redirect()->back()->with('success', 'Kategori status berhasil diperbaharui');
     }
+
     // End Of Kategori
 
-    // Dokumen 
+    // Dokumen
     public function view_dokumen(Request $request)
     {
         $newuser = User::find(2)->unreadNotifications->where('type', 'App\Notifications\NewUser');
@@ -286,7 +287,7 @@ class DashboardController extends Controller
 
     public function update_status_user(Request $request, $id)
     {
-        // 
+        //
         $user = User::select('status')->where('id', $id)->first();
         $member = User::where('id', $id)->first();
         if ($user->status == 'inactive') {
@@ -324,7 +325,8 @@ class DashboardController extends Controller
     public function download_dokumen($id)
     {
         $berkas = Berkas::where('id', $id)->first();
-        $path = public_path('storage/berkas' . $berkas->file);
+        $path = public_path('storage/berkas/' . $berkas->file);
+
         return response()->download($path);
     }
     // End of Download
@@ -370,6 +372,7 @@ class DashboardController extends Controller
             $pdf->save('public/berkas/' . $validated['file']);
         } else {
             $validated = 'nodatafound';
+            return redirect()->back()->with('danger', 'Data Gagal Ditambahkan');
         }
         $satker = Auth::user()->satker;
         $user = User::where('role', 1)->get();
